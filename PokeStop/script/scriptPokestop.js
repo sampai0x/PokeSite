@@ -9,11 +9,11 @@ const getAbilities = (abilities) =>
 
 const createAbilities = (abilities) => abilities.reduce((acc, item) => acc += `<li>${item}</li>`, '')
 
-const createPokemon = ({image, name, abilities})  => {
+const criarPokemon = ({imagem, name, abilities})  => {
     pokemonElement.innerHTML = `
     <div class="pokemon__wrapperImage">
         <img
-        src="${image}"
+        src="${imagem}"
         class="pokemon__image"
         alt="pokemon ${name}"
         />
@@ -31,13 +31,13 @@ const getPokemon = () =>
     fetch(`${urlApi}/${randomId()}`)
         .then(response => response.json())
         .then(({name, abilities, ...pokemon}) => {
-            const pokemonImage = pokemon.sprites.other.dream_world.front_default
+            const pokemonImagem = pokemon.sprites.other.dream_world.front_default
             const pokemonSelected = {
                 name: name,
-                image: pokemonImage ? pokemonImage : './assets/pokemon_logo.png' ,
+                imagem: pokemonImagem ? pokemonImagem : 'img/pokemon_logo.png' ,
                 abilities: getAbilities(abilities)
             }
-            createPokemon(pokemonSelected);
+            criarPokemon(pokemonSelected);
            
         })
 
