@@ -1,75 +1,71 @@
-//Initial References
-
-//Questions Or Images
 const questions = [
   {
-    image: "Alakazam.jpg",
-    correct_option: "Alakazam",
+    imagem: "Alakazam.jpg",
+    opcao_correta: "Alakazam",
   },
   {
-    image: "Arcanine.jpg",
-    correct_option: "Arcanine",
+    imagem: "Arcanine.jpg",
+    opcao_correta: "Arcanine",
   },
   {
-    image: "Bulbasaur.jpg",
-    correct_option: "Bulbasaur",
+    imagem: "Bulbasaur.jpg",
+    opcao_correta: "Bulbasaur",
   },
   {
-    image: "Cubone.jpg",
-    correct_option: "Cubone",
+    imagem: "Cubone.jpg",
+    opcao_correta: "Cubone",
   },
   {
-    image: "Ditto.jpg",
-    correct_option: "Ditto",
+    imagem: "Ditto.jpg",
+    opcao_correta: "Ditto",
   },
   {
-    image: "Gloom.jpg",
-    correct_option: "Gloom",
+    imagem: "Gloom.jpg",
+    opcao_correta: "Gloom",
   },
   {
-    image: "Gyarados.jpg",
-    correct_option: "Gyarados",
+    imagem: "Gyarados.jpg",
+    opcao_correta: "Gyarados",
   },
   {
-    image: "Hitmonlee.jpg",
-    correct_option: "Hitmonlee",
+    imagem: "Hitmonlee.jpg",
+    opcao_correta: "Hitmonlee",
   },
   {
-    image: "Horsea.jpg",
-    correct_option: "Horsea",
+    imagem: "Horsea.jpg",
+    opcao_corretan: "Horsea",
   },
   {
-    image: "Koffing.jpg",
-    correct_option: "Koffing",
+    imagem: "Koffing.jpg",
+    opcao_correta: "Koffing",
   },
   {
-    image: "Mewtwo.jpg",
-    correct_option: "Mewtwo",
+    imagem: "Mewtwo.jpg",
+    opcao_correta: "Mewtwo",
   },
   {
-    image: "Seaking.jpg",
-    correct_option: "Seaking",
+    imagem: "Seaking.jpg",
+    opcao_correta: "Seaking",
   },
   {
-    image: "Tauros.jpg",
-    correct_option: "Tauros",
+    imagem: "Tauros.jpg",
+    opcao_correta: "Tauros",
   },
   {
-    image: "Venonat.jpg",
-    correct_option: "Venonat",
+    imagem: "Venonat.jpg",
+    opcao_correta: "Venonat",
   },
   {
-    image: "Victreebe.jpg",
-    correct_option: "Victreebe",
+    imagem: "Victreebe.jpg",
+    opcao_correta: "Victreebe",
   },
   {
-    image: "eevee.jpg",
-    correct_option: "Eevee",
+    imagem: "eevee.jpg",
+    opcao_correta: "Eevee",
   },
 ];
 
-//All options
-const optionsArray = [
+const opcoesArray = [
   "Alakazam",
   "Arcanine",
   "Bulbasaur",
@@ -113,150 +109,141 @@ const optionsArray = [
 ];
 const container = document.querySelector(".container");
 const gameContainer = document.querySelector(".game-container");
-const startButton = document.getElementById("start");
-const scoreContainer = document.querySelector(".score-container");
-const userScore = document.getElementById("user-score");
+const comecarBotao = document.getElementById("start");
+const pontosContainer = document.querySelector(".score-container");
+const pontosJogador = document.getElementById("user-score");
 let timer = document.getElementsByClassName("timer")[0];
-let nextBtn;
-let score, currentQuestion, finalQuestions;
-let countdown,
-  count = 11;
+let proxBtn;
+let pontos, perguntaAtual, questoesFinais;
+let contagem,
+  contador = 11;
 
-//Random value from array
-const randomValueGenerator = (array) =>
+const gerarValorAleatorio = (array) =>
   array[Math.floor(Math.random() * array.length)];
 
-//Random shuffle array
-const randomShuffle = (array) => array.sort(() => 0.5 - Math.random());
+const embaralhaAleatorio = (array) => array.sort(() => 0.5 - Math.random());
 
-//Start game
-const startGame = () => {
-  //Select random 5 questions
-  scoreContainer.classList.add("hide");
+
+const comecarJogo = () => {
+  pontosContainer.classList.add("hide");
   gameContainer.classList.remove("hide");
-  finalQuestions = populateQuestions();
-  score = 0;
-  currentQuestion = 0;
-  //Generate card for first question
-  cardGenerator(finalQuestions[currentQuestion]);
+  questoesFinais = responder();
+  pontos = 0;
+  perguntaAtual = 0;
+  cardGenerator(questoesFinais[perguntaAtual]);
 };
 
-//Timer
+
 const timerDisplay = () => {
-  countdown = setInterval(() => {
-    count -= 1;
-    timer.innerHTML = `<span>Time Left: </span>${count}s`;
-    if (count == 0) {
-      clearInterval(countdown);
-      nextQuestion();
+  contagem = setInterval(() => {
+    contador -= 1;
+    timer.innerHTML = `<span>Tempo Restante: </span>${contador}s`;
+    if (contador == 0) {
+      clearInterval(contagem);
+      proximaPergunta();
     }
   }, 1000);
 };
 
-//Create options
-const populateOptions = (correct_option) => {
+
+const criaOpcao = (opcao_correta) => {
   let arr = [];
-  arr.push(correct_option);
-  let optionsCount = 1;
-  while (optionsCount < 4) {
-    let randomvalue = randomValueGenerator(optionsArray);
-    if (!arr.includes(randomvalue)) {
-      arr.push(randomvalue);
-      optionsCount += 1;
+  arr.push(opcao_correta);
+  let contadorOpcoes = 1;
+  while (contadorOpcoes < 4) {
+    let valorAleatorio = gerarValorAleatorio(opcoesArray);
+    if (!arr.includes(valorAleatorio)) {
+      arr.push(valorAleatorio);
+      contadorOpcoes += 1;
     }
   }
   return arr;
 };
 
-//Choose random questions
-const populateQuestions = () => {
-  let questionsCount = 0;
-  let chosenObjects = [];
-  let questionsBatch = [];
-  //5 Questions
-  while (questionsCount < 5) {
-    let randomvalue = randomValueGenerator(questions);
-    let index = questions.indexOf(randomvalue);
-    if (!chosenObjects.includes(index)) {
-      questionsBatch.push(randomvalue);
-      chosenObjects.push(index);
-      questionsCount += 1;
+
+const responder = () => {
+  let questoesContador = 0;
+  let questoesEscolhidas = [];
+  let loteQuestoes = [];
+ 
+  while (questoesContador < 5) {
+    let valorAleatorio = gerarValorAleatorio(questions);
+    let index = questions.indexOf(valorAleatorio);
+    if (!questoesEscolhidas.includes(index)) {
+      loteQuestoes.push(valorAleatorio);
+      questoesEscolhidas.push(index);
+      questoesContador += 1;
     }
   }
-  return questionsBatch;
+  return loteQuestoes;
 };
 
-//check selected answer
 const checker = (e) => {
-  let userSolution = e.target.innerText;
-  let options = document.querySelectorAll(".option");
-  if (userSolution === finalQuestions[currentQuestion].correct_option) {
+  let escolhaJogador = e.target.innerText;
+  let opcoes = document.querySelectorAll(".option");
+  if (escolhaJogador === questoesFinais[perguntaAtual].opcao_correta) {
     e.target.classList.add("correct");
-    score++;
+    pontos++;
   } else {
     e.target.classList.add("incorrect");
-    options.forEach((element) => {
-      if (element.innerText == finalQuestions[currentQuestion].correct_option) {
+    opcoes.forEach((element) => {
+      if (element.innerText == questoesFinais[perguntaAtual].opcao_correta) {
         element.classList.add("correct");
       }
     });
   }
 
-  clearInterval(countdown);
-  //disable all options
-  options.forEach((element) => {
+  clearInterval(contagem);
+  opcoes.forEach((element) => {
     element.disabled = true;
   });
 };
 
-//Next question
-const nextQuestion = (e) => {
-  //increment currentQuestion
-  currentQuestion += 1;
-  if (currentQuestion == finalQuestions.length) {
+const proximaPergunta = (e) => {
+  perguntaAtual += 1;
+  if (perguntaAtual == questoesFinais.length) {
     gameContainer.classList.add("hide");
-    scoreContainer.classList.remove("hide");
-    startButton.innerText = `Restart`;
-    userScore.innerHTML =
-      "Your score is " + score + " out of " + currentQuestion;
-    clearInterval(countdown);
+    pontosContainer.classList.remove("hide");
+    comecarBotao.innerText = `Reiniciar`;
+    pontosJogador.innerHTML =
+      "Sua pontuação foi " + pontos + " de " + perguntaAtual;
+    clearInterval(contagem);
   } else {
-    cardGenerator(finalQuestions[currentQuestion]);
+    cardGenerator(questoesFinais[perguntaAtual]);
   }
 };
 
-//Card UI
 const cardGenerator = (cardObject) => {
-  const { image, correct_option } = cardObject;
-  let options = randomShuffle(populateOptions(correct_option));
+  const { imagem, opcao_correta } = cardObject;
+  let opcoes = embaralhaAleatorio(criaOpcao(opcao_correta));
   container.innerHTML = `<div class="quiz">
   <p class="num">
-  ${currentQuestion + 1}/5
+  ${perguntaAtual + 1}/5
   </p>
   <div class="questions">
-    <img class="pokemon-image" src="${image}"/>
+    <img class="pokemon-image" src="${imagem}"/>
   </div>
     <div class="options">
-    <button class="option" onclick="checker(event)">${options[0]}
+    <button class="option" onclick="checker(event)">${opcoes[0]}
     </button>
-    <button class="option" onclick="checker(event)">${options[1]}
+    <button class="option" onclick="checker(event)">${opcoes[1]}
     </button>
-    <button class="option" onclick="checker(event)">${options[2]}
+    <button class="option" onclick="checker(event)">${opcoes[2]}
     </button>
-    <button class="option" onclick="checker(event)">${options[3]}
+    <button class="option" onclick="checker(event)">${opcoes[3]}
     </button>
     </div>
 
     <div class="nxt-btn-div">
-        <button class="next-btn" onclick="nextQuestion(event)">Next</button>
+        <button class="next-btn" onclick="proximaPergunta(event)">Próxima</button>
     </div>
 
   </div>`;
-  //For timer
-  count = 11;
-  clearInterval(countdown);
-  //Display timer
+
+  contador = 11;
+  clearInterval(contagem);
+
   timerDisplay();
 };
 
-startButton.addEventListener("click", startGame);
+comecarBotao.addEventListener("click", comecarJogo);
