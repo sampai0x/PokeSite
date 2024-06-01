@@ -57,3 +57,7 @@ buttonProx.addEventListener('click', () => {
 });
 
 renderPokemon(pesquisaPokemon);
+
+function voltarHome(){
+  window.history.back ();
+}

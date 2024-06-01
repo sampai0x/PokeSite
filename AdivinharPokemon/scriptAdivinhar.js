@@ -247,3 +247,7 @@ const cardGenerator = (cardObject) => {
 };
 
 comecarBotao.addEventListener("click", comecarJogo);
+
+function voltarHome(){
+  window.history.back();
+}

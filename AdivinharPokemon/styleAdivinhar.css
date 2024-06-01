@@ -113,3 +113,9 @@ body {
   margin-bottom: 1em;
   color: #ffffff;
 }
+
+.pokemon__logo {
+  width: 300px;
+  align-items: center;
+  display: center;
+}

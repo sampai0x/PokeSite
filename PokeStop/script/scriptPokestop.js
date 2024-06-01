@@ -42,3 +42,7 @@ const getPokemon = () =>
         })
 
 getPokemon();
+
+function voltarHome(){
+    window.history.back ();
+  }

@@ -11,7 +11,7 @@
     width: 350px;
     position: absolute;
     transform: translate(-50%, -50%);
-    top: 50%;
+    top: 55%;
     left: 50%;
   }
   #card {
@@ -77,3 +77,13 @@
     border: none;
     border-radius: 5px;
   }
+
+.pokemon__logo {
+    width: 300px;
+}
+
+.header {
+  background-color: var(--gray-900);
+  text-align: center;
+  height: 2rem;
+}

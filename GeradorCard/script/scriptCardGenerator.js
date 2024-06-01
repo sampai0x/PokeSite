@@ -86,3 +86,7 @@ const tipoCor = {
   
   btn.addEventListener("click", getAPI);
   window.addEventListener("load", getAPI);
+
+  function voltarHome(){
+    window.history.back();
+  }
